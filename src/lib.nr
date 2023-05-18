@@ -81,7 +81,14 @@ impl Signed {
         }
     }
 
-    fn abs(self) -> u124 {
+    fn abs(self) -> Self {
+        Self {
+            x: self.x,
+            is_neg: false,
+        }
+    }
+
+    fn absi(self) -> u124 {
         self.x
     }
 
@@ -123,7 +130,7 @@ fn test_identites() {
     constrain one.add(zero).eq(one);
     constrain a1.add(zero).eq(a1);
     constrain a2.add(zero).eq(a2);
-    constrain a1.add(zero).abs() == 5;      // Sanity check on eq
+    constrain a1.add(zero).absi() == 5;      // Sanity check on eq
 
     // Multiplicative identity
     constrain zero.mul(one).eq(zero);
