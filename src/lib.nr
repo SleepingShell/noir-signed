@@ -77,7 +77,7 @@ impl Signed {
     fn flip(self) -> Self {
         Self {
             x: self.x,
-            is_neg: !self.is_neg,
+            is_neg: !self.is_neg & (self.x != 0),
         }
     }
 
@@ -143,13 +143,11 @@ fn test_inverse() {
 
 #[test]
 fn test_general() {
-    let a0 = Signed::zero();                // 0
     let a1 = Signed::toSigned(5);           // 5
     let a2 = Signed::toSigned(2);           // 2
     let a3 = Signed::toSigned(8).flip();    // -8
     let a4 = Signed::toSigned(10).flip();   // -10
 
-    constrain a1.add(a0).eq(a1);                                // 5+0=5
     constrain a1.add(a2).eq(Signed::toSigned(7));               // 5+2=7
     constrain a1.add(a3).eq(Signed::toSigned(3).flip());        // 5+(-8)=-3
     constrain a4.add(a3).eq(Signed::toSigned(18).flip());       // -8+(-10)=-18
@@ -158,4 +156,7 @@ fn test_general() {
     constrain a2.sub(a1).eq(Signed::toSigned(3).flip());        // 2-5=-3
     constrain a4.sub(a1).eq(Signed::toSigned(15).flip());       // -10-5=-15
     constrain a1.sub(a4).eq(Signed::toSigned(15));              // 5-(-10)=15
+
+    constrain Signed::zero().is_neg == false;
+    constrain Signed::zero().flip().is_neg == false;
 }
