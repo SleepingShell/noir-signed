@@ -74,6 +74,13 @@ impl Signed {
         (self.x == other.x) & (self.is_neg == other.is_neg)
     }
 
+    fn squared(self) -> Self {
+        Self {
+            x: self.x * self.x,
+            is_neg: false,
+        }
+    }
+
     fn flip(self) -> Self {
         Self {
             x: self.x,
